@@ -11,8 +11,9 @@ ULL = ULL or {}
 
 ----Enums----
 
---Info--
-ULL.INFO = {
+--Misc--
+ULL.MISC = {}
+ULL.MISC.INFO = {
     name       = "Useful Lua Library",
     hypocorism = "ULL",
     version    = 1.0,
@@ -95,10 +96,13 @@ ULL.WEBSITE.YOUTUBE         = "http://youtube.com/"
 --[[Easier way to include files
 This will take care of AddCSLuaFiling and including a file so you wont have to use more than 1 function to include a file
 
-use these for the instance argument:
+Use these for the instance argument:
 ULL.INSTANCE.SHARED
 ULL.INSTANCE.SERVER
 ULL.INSTANCE.CLIENT
+
+Example:
+ULL.Include("path/to/file.lua", ULL.INSTANCE.SHARED)
 ]]
 function ULL.Include(path, instance)
     if SERVER then
