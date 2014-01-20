@@ -1,4 +1,4 @@
-useful_lua_library
+Useful Lua Library
 ==================
 
 Lua library for Garry's Mod.
