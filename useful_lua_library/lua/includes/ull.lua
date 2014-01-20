@@ -269,14 +269,14 @@ if SERVER then
     end
     
     --chat.AddText() for server
-    /*
+    --[[
     
     Examples:
     ULL.ChatAddText("Send", Entity(1), Color(255, 0, 0), "Hello world!")                --Send to player 1
     ULL.ChatAddText("Send", {Entity(1), Entity(2)}, Color(255, 0, 0), "Hello world!")   --Send to more players
     ULL.ChatAddText("Broadcast", nil, Color(255, 0, 0), "Hello world!")                 --Send to everyone
     
-    */
+    ]]
     function ULL.ChatAddText(sendType, players, ...)
         net.Start("ULL_CLIENT_ChatAddText")
             net.WriteTable(...)
