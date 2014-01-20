@@ -120,7 +120,7 @@ function ULL.Include(path, instance)
     end
 end
 
---Find player by steamID
+--Get player by steamID
 function ULL.GetPlayerBySteamID(steamID)
     for k, v in pairs(player.GetHumans()) do
         if v:SteamID() == steamID then
@@ -129,6 +129,19 @@ function ULL.GetPlayerBySteamID(steamID)
     end
     
     return NULL
+end
+
+--Get player by name
+function ULL.GetPlayerByName(name)
+    local foundPlayers = {}
+    
+    for k, v in pairs(player.GetHumans()) do
+        if string.find(string.lower(v:Name()), string.lower(name)) then
+            table.insert(foundPlayers, v)
+        end
+    end
+    
+    return foundPlayers
 end
 
 --Creates a random color and returns it
