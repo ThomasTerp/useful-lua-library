@@ -11,7 +11,7 @@ end
 
 
 ----Varibles----
-ULL = ULL or {}
+ULL = {}
 
 
 ----Enums----
