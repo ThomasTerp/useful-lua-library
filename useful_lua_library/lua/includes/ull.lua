@@ -13,12 +13,12 @@ ULL = ULL or {}
 
 --Info--
 ULL.INFO = {
-    name 	   = "Useful Lua Library",
+    name       = "Useful Lua Library",
     hypocorism = "ULL",
     version    = 1.0,
     
     author = {
-        name 	= "Thomas",
+        name    = "Thomas",
         country = "Denmark",
         profile = "http://steamcommunity.com/profiles/76561197999017482/",
         steamID = "STEAM_0:0:19375877",
@@ -44,48 +44,48 @@ ULL.COLOR.PURPLE = Color(255, 0,   255)
 
 --Vectors--
 ULL.VECTOR = {}
-ULL.VECTOR.RIGHT 	= Vector(1,  0,  0)
-ULL.VECTOR.FORWARD 	= Vector(0,  1,  0)
-ULL.VECTOR.UP 		= Vector(0,  0,  1)
-ULL.VECTOR.LEFT 	= Vector(-1, 0,  0)
+ULL.VECTOR.RIGHT    = Vector(1,  0,  0)
+ULL.VECTOR.FORWARD  = Vector(0,  1,  0)
+ULL.VECTOR.UP       = Vector(0,  0,  1)
+ULL.VECTOR.LEFT     = Vector(-1, 0,  0)
 ULL.VECTOR.BACKWARD = Vector(0,  -1, 0)
-ULL.VECTOR.DOWN 	= Vector(0,  0,  -1)
+ULL.VECTOR.DOWN     = Vector(0,  0,  -1)
 
 --Time--
 ULL.TIME = {}
 ULL.TIME.MILLISECOND = 0.001
 ULL.TIME.CENTISECOND = 0.01
-ULL.TIME.DECISECOND	 = 0.1
-ULL.TIME.SECOND		 = 1
-ULL.TIME.DEKASECOND	 = 10
-ULL.TIME.MINUTE		 = 60
+ULL.TIME.DECISECOND  = 0.1
+ULL.TIME.SECOND      = 1
+ULL.TIME.DEKASECOND  = 10
+ULL.TIME.MINUTE      = 60
 ULL.TIME.HECTOSECOND = 100
-ULL.TIME.KILOSECOND	 = 1000
-ULL.TIME.HOUR		 = 3600
-ULL.TIME.DAY		 = 86400
-ULL.TIME.WEEK		 = 604800
-ULL.TIME.MEGASECOND	 = 1000000
-ULL.TIME.MONTH		 = 2.63e+6
-ULL.TIME.SEASON		 = 7.889e+6
-ULL.TIME.YEAR		 = 3.156e+7
-ULL.TIME.LUSTRUM	 = 1.578e+8
-ULL.TIME.DECADE		 = 3.156e+8
-ULL.TIME.INDICATION	 = 4.734e+8
-ULL.TIME.JUBILEE	 = 1.578e+9
-ULL.TIME.CENTURY	 = 3.156e+9
-ULL.TIME.MILLENNIUM	 = 3.156e+10
-ULL.TIME.TERASECOND	 = 4.3233e+11
-ULL.TIME.MEGAANNUM	 = 3.155693e+13
+ULL.TIME.KILOSECOND  = 1000
+ULL.TIME.HOUR        = 3600
+ULL.TIME.DAY         = 86400
+ULL.TIME.WEEK        = 604800
+ULL.TIME.MEGASECOND  = 1000000
+ULL.TIME.MONTH       = 2.63e+6
+ULL.TIME.SEASON      = 7.889e+6
+ULL.TIME.YEAR        = 3.156e+7
+ULL.TIME.LUSTRUM     = 1.578e+8
+ULL.TIME.DECADE      = 3.156e+8
+ULL.TIME.INDICATION  = 4.734e+8
+ULL.TIME.JUBILEE     = 1.578e+9
+ULL.TIME.CENTURY     = 3.156e+9
+ULL.TIME.MILLENNIUM  = 3.156e+10
+ULL.TIME.TERASECOND  = 4.3233e+11
+ULL.TIME.MEGAANNUM   = 3.155693e+13
 
 --Websites--
 ULL.WEBSITE = {}
-ULL.WEBSITE.STEAM			= "http://store.steampowered.com/"
-ULL.WEBSITE.FACEPUNCH		= "http://facepunch.com/"
-ULL.WEBSITE.GOOGLE			= "http://www.google.com/"
-ULL.WEBSITE.DAYBREAKGAMING	= "http://daybreakgaming.com/"
-ULL.WEBSITE.FACEBOOK		= "http://facebook.com/"
-ULL.WEBSITE.TWITTER			= "http://twitter.com/"
-ULL.WEBSITE.YOUTUBE			= "http://youtube.com/"
+ULL.WEBSITE.STEAM           = "http://store.steampowered.com/"
+ULL.WEBSITE.FACEPUNCH       = "http://facepunch.com/"
+ULL.WEBSITE.GOOGLE          = "http://www.google.com/"
+ULL.WEBSITE.DAYBREAKGAMING  = "http://daybreakgaming.com/"
+ULL.WEBSITE.FACEBOOK        = "http://facebook.com/"
+ULL.WEBSITE.TWITTER         = "http://twitter.com/"
+ULL.WEBSITE.YOUTUBE         = "http://youtube.com/"
 
 
 ----Functions----
@@ -159,7 +159,7 @@ if SERVER then
         username = "",
         password = "",
         database = "",
-        port 	 = 0,
+        port     = 0,
         
         OnConnected = function(mySQL)
             
@@ -174,15 +174,15 @@ if SERVER then
         local mySQL = {}
         local arg = ...
         
-        mySQL.quene			  = {}
+        mySQL.quene           = {}
         mySQL.firstConnection = true
-        mySQL.OnConnected 	  = arg.OnConnected
+        mySQL.OnConnected     = arg.OnConnected
         mySQL.connectionInfo  = {
             hostname = arg.hostname,
             username = arg.username,
             password = arg.password,
             database = arg.database,
-            port	 = arg.port,
+            port     = arg.port,
         }
         
         --Connect
@@ -272,9 +272,9 @@ if SERVER then
     /*
     
     Examples:
-    ULL.ChatAddText("Send", Entity(1), Color(255, 0, 0), "Hello world!") 				--Send to player 1
-    ULL.ChatAddText("Send", {Entity(1), Entity(2)}, Color(255, 0, 0), "Hello world!") 	--Send to more players
-    ULL.ChatAddText("Broadcast", nil, Color(255, 0, 0), "Hello world!") 				--Send to everyone
+    ULL.ChatAddText("Send", Entity(1), Color(255, 0, 0), "Hello world!")                --Send to player 1
+    ULL.ChatAddText("Send", {Entity(1), Entity(2)}, Color(255, 0, 0), "Hello world!")   --Send to more players
+    ULL.ChatAddText("Broadcast", nil, Color(255, 0, 0), "Hello world!")                 --Send to everyone
     
     */
     function ULL.ChatAddText(sendType, players, ...)
