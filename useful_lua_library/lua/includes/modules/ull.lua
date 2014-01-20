@@ -3,6 +3,11 @@ Made by Thomas (http://steamcommunity.com/profiles/76561197999017482/)
 You can use this script in any addons without giving me credits, but don't say you made it.
 ]]
 
+----AddCSLuaFiles----
+if SERVER then
+    --This file
+    AddCSLuaFile()
+end
 
 
 ----Varibles----
@@ -12,8 +17,8 @@ ULL = ULL or {}
 ----Enums----
 
 --Info--
-ULL.INfO = {}
-ULL.INFO.NAME           = "Useful Lua Library",
+ULL.INFO = {}
+ULL.INFO.NAME           = "Useful Lua Library"
 ULL.INFO.GITHUB         = "https://github.com/Thomas672/useful_lua_library/"
 ULL.INFO.VERSION        = "1.0"
 ULL.INFO.AUTHOR_NAME    = "Thomas"
@@ -278,7 +283,7 @@ if SERVER then
     ]]
     function ULL.ChatAddText(sendType, players, ...)
         net.Start("ULL_CLIENT_ChatAddText")
-            net.WriteTable(...)
+            net.WriteTable({...})
         net[sendType](players)
     end
 end
