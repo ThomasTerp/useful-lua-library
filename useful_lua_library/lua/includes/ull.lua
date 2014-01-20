@@ -11,20 +11,15 @@ ULL = ULL or {}
 
 ----Enums----
 
---Misc--
-ULL.MISC = {}
-ULL.MISC.INFO = {
-    name       = "Useful Lua Library",
-    hypocorism = "ULL",
-    version    = 1.0,
-    
-    author = {
-        name    = "Thomas",
-        country = "Denmark",
-        profile = "http://steamcommunity.com/profiles/76561197999017482/",
-        steamID = "STEAM_0:0:19375877",
-    },
-}
+--Info--
+ULL.INfO = {}
+ULL.INFO.NAME           = "Useful Lua Library",
+ULL.INFO.GITHUB         = "https://github.com/Thomas672/useful_lua_library/"
+ULL.INFO.VERSION        = "1.0"
+ULL.INFO.AUTHOR_NAME    = "Thomas"
+ULL.INFO.AUTHOR_STEAMID = "STEAM_0:0:1937587"
+ULL.INFO.AUTHOR_PROFILE = "http://steamcommunity.com/profiles/76561197999017482/"
+ULL.INFO.AUTHOR_GITHUB  = "https://github.com/Thomas672/"
 
 --Instances--
 ULL.INSTANCE = {}
