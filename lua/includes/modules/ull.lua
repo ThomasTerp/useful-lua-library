@@ -1,6 +1,8 @@
 --[[Useful Lua Library (ULL)
 Made by Thomas (http://steamcommunity.com/profiles/76561197999017482/)
 You can use this script in any addons without giving me credits, but don't say you made it.
+
+Use require("ull") in top of the file you want to use this library in, works best if file is shared.
 ]]
 
 ----AddCSLuaFiles----
@@ -15,6 +17,14 @@ ULL = {}
 
 
 ----Enums----
+--[[
+Examples:
+local vec = ULL.VECTOR.UP*5000          --Same as Vector(0, 0, 5000)
+local timeLeft = ULL.TIME.MINUTE        --60 seconds
+local timeLeft = ULL.TIME.MINUTE*30     --1800 seconds
+gui.OpenURL(ULL.WEBSITE.STEAM)          --Will open steampowered.com in steam overlay
+
+]]
 
 --Info--
 ULL.INFO = {}
@@ -87,6 +97,7 @@ ULL.WEBSITE.DAYBREAKGAMING  = "http://daybreakgaming.com/"
 ULL.WEBSITE.FACEBOOK        = "http://facebook.com/"
 ULL.WEBSITE.TWITTER         = "http://twitter.com/"
 ULL.WEBSITE.YOUTUBE         = "http://youtube.com/"
+ULL.WEBSITE.GITHUB          = "http://github.com/"
 
 
 ----Functions----
