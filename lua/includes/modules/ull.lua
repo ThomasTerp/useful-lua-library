@@ -13,7 +13,7 @@ end
 
 
 ----Varibles----
-ULL = {}
+ULL = ULL or {}
 
 
 ----Enums----
@@ -30,7 +30,7 @@ gui.OpenURL(ULL.WEBSITE.STEAM)          --Will open steampowered.com in steam ov
 ULL.INFO = {}
 ULL.INFO.NAME           = "Useful Lua Library"
 ULL.INFO.GITHUB         = "https://github.com/Thomas672/useful_lua_library/"
-ULL.INFO.VERSION        = "1.0"
+ULL.INFO.VERSION        = "1.1"
 ULL.INFO.AUTHOR_NAME    = "Thomas"
 ULL.INFO.AUTHOR_STEAMID = "STEAM_0:0:1937587"
 ULL.INFO.AUTHOR_PROFILE = "http://steamcommunity.com/profiles/76561197999017482/"
@@ -42,24 +42,30 @@ ULL.INSTANCE.SHARED = 1
 ULL.INSTANCE.SERVER = 2
 ULL.INSTANCE.CLIENT = 3
 
+--Hook--
+ULL.HOOK = {}
+ULL.HOOK.NORMAL        = 1
+ULL.HOOK.RUN_IF_TRUE   = 2
+ULL.HOOK.IGNORE_RETURN = 3
+
 --Colors--
 ULL.COLOR = {}
-ULL.COLOR.BLACK  = Color(0,   0,   0)
+ULL.COLOR.BLACK  = Color(0,   0,   0  )
 ULL.COLOR.WHITE  = Color(255, 255, 255)
-ULL.COLOR.RED    = Color(255, 0,   0)
-ULL.COLOR.GREEN  = Color(0,   255, 0)
+ULL.COLOR.RED    = Color(255, 0,   0  )
+ULL.COLOR.GREEN  = Color(0,   255, 0  )
 ULL.COLOR.BLUE   = Color(0,   0,   255)
 ULL.COLOR.YELLOW = Color(255, 0,   255)
-ULL.COLOR.ORANGE = Color(255, 150, 0)
+ULL.COLOR.ORANGE = Color(255, 150, 0  )
 ULL.COLOR.PURPLE = Color(255, 0,   255)
 
 --Vectors--
 ULL.VECTOR = {}
-ULL.VECTOR.RIGHT    = Vector(1,  0,  0)
-ULL.VECTOR.FORWARD  = Vector(0,  1,  0)
-ULL.VECTOR.UP       = Vector(0,  0,  1)
-ULL.VECTOR.LEFT     = Vector(-1, 0,  0)
-ULL.VECTOR.BACKWARD = Vector(0,  -1, 0)
+ULL.VECTOR.RIGHT    = Vector(1,  0,  0 )
+ULL.VECTOR.FORWARD  = Vector(0,  1,  0 )
+ULL.VECTOR.UP       = Vector(0,  0,  1 )
+ULL.VECTOR.LEFT     = Vector(-1, 0,  0 )
+ULL.VECTOR.BACKWARD = Vector(0,  -1, 0 )
 ULL.VECTOR.DOWN     = Vector(0,  0,  -1)
 
 --Time--
@@ -91,9 +97,9 @@ ULL.TIME.MEGAANNUM   = 3.155693e+13
 --Websites--
 ULL.WEBSITE = {}
 ULL.WEBSITE.STEAM           = "http://store.steampowered.com/"
-ULL.WEBSITE.FACEPUNCH       = "http://facepunch.com/"
-ULL.WEBSITE.GOOGLE          = "http://www.google.com/"
 ULL.WEBSITE.DAYBREAKGAMING  = "http://daybreakgaming.com/"
+ULL.WEBSITE.GOOGLE          = "http://www.google.com/"
+ULL.WEBSITE.FACEPUNCH       = "http://facepunch.com/"
 ULL.WEBSITE.FACEBOOK        = "http://facebook.com/"
 ULL.WEBSITE.TWITTER         = "http://twitter.com/"
 ULL.WEBSITE.YOUTUBE         = "http://youtube.com/"
@@ -146,7 +152,7 @@ end
 function ULL.GetPlayerByName(name)
     local foundPlayers = {}
     
-    for k, v in pairs(player.GetHumans()) do
+    for k, v in pairs(player.GetAll()) do
         if string.find(string.lower(v:Name()), string.lower(name)) then
             table.insert(foundPlayers, v)
         end
@@ -169,6 +175,175 @@ end
 function ULL.TheUltimateQuestionOfLifeTheUniverseAndEverything()
     return 42
 end
+
+--[[Gets a varible by name and returns it
+
+Examples:
+local var = ULL.GetVaribleByName("hook")
+local var = ULL.GetVaribleByName("hook.Add")
+
+]]
+function ULL.GetTableVarible(name)
+    local var = _G
+    
+    for k, v in ipairs(string.Explode(".", name)) do
+        if type(var) == "table" then
+           var = var[v]
+        end
+    end
+    
+    return var
+end
+
+--[[Set a varible in a table using a string
+
+normally you would just do
+hook.Add = function() end
+but in some cases that may not be possible (like my ULL.HookFunction)
+
+Examples:
+ULL.SetTableVarible("hook.Add", function()
+    print("hook.Add can no longer be used >:)")
+end)
+
+]]
+function ULL.SetTableVarible(tableVar, newVar)
+    local parts = string.Explode(".", tableVar)
+    local var = _G
+    
+    for k, v in ipairs(parts) do
+        if k == #parts then
+            var[v] = newVar
+        elseif type(var) == "table" then
+            var = var[v]
+        end
+    end
+end
+
+
+--Hook function--
+ULL.hookFunctionsOriginal = ULL.hookFunctionsOriginal or {}
+ULL.hookFunctions         = ULL.hookFunctions         or {}
+
+--[[Use a function as a hook
+
+Example:
+ULL.HookFunction(print, "print_prefix", function(...)
+    return "print:", ...
+end)
+
+if you do print("Hello world!") it will print this to console:
+print:  Hello world!
+
+]]
+function ULL.HookFunctionAdd(funcName, uniqueName, beforeFunc, afterFunc)
+    --Store function with uniqueName
+    ULL.hookFunctions[funcName] = ULL.hookFunctions[funcName] or {}
+    ULL.hookFunctions[funcName][uniqueName] = {
+        beforeFunc = beforeFunc,
+        afterFunc  = afterFunc
+    }
+    
+    --Create hook function if it's not already made
+    if not ULL.hookFunctionsOriginal[funcName] then
+        local original = ULL.GetTableVarible(funcName)
+        ULL.hookFunctionsOriginal[funcName] = original
+        
+        ULL.SetTableVarible(funcName, function(...)
+            local args = {...}
+            
+            for k, v in pairs(ULL.hookFunctions[funcName]) do
+                args = {v.beforeFunc(original, unpack(args))}
+            end
+            
+            local values = {original(unpack(args))}
+            
+            for k, v in pairs(ULL.hookFunctions[funcName]) do
+                if v.afterFunc then
+                    v.afterFunc(original, unpack(args))
+                end
+            end
+            
+            return values
+        end)
+    end
+end
+
+--Remove a hook function
+function ULL.HookFunctionRemove(funcName, uniqueName)
+    if ULL.hookFunctions[funcName] then
+        ULL.hookFunctions[funcName][uniqueName] = nil
+    end
+end
+
+
+
+--Hook--
+--[[ULL.hooksRunIfTrue    = {}
+ULL.hooksIgnoreReturn = {}
+
+ULL.HookFunction("hook.Call", "ULL.HookAdd", function(original, ...)
+    local args = {...}
+    local hookName = args[1]
+    local gm = args[2]
+    table.remove(args, 1)
+    table.remove(args, 1)
+    
+    if ULL.hooksRunIfTrue[name] then
+        for k, v in pairs(ULL.hooksRunIfTrue[name]) do
+            if args[1] then
+                v(unpack(args))
+            end
+        end
+    end
+    
+    return original(...)
+end)
+
+function ULL.HookAdd(hookName, name, mode, func)
+    if mode == ULL.HOOK.NORMAL then
+        
+        --Works exactly like hook.Add
+        hook.Add(hookName, name, func)
+        
+    elseif mode == ULL.HOOK.RUN_IF_TRUE then
+        
+        --Store function in ULL.hooksRunIfTrue
+        ULL.hooksRunIfTrue[hookName] = ULL.hooksRunIfTrue[hookName] or {}
+        ULL.hooksRunIfTrue[hookName][name] = func
+        
+    elseif mode == ULL.HOOK.IGNORE_RETURN then
+        
+        --Store function in ULL.hooksIgnoreReturn
+        ULL.hooksIgnoreReturn[hookName] = ULL.hooksIgnoreReturn[hookName] or {}
+        ULL.hooksIgnoreReturn[hookName][name] = func
+        
+    end
+end
+
+function ULL.HookAdd(hookName, name, mode)
+    if mode == ULL.HOOK.NORMAL then
+        
+        --Works exactly like hook.Remove
+        hook.Remove(hookName, name)
+        
+    elseif mode == ULL.HOOK.RUN_IF_TRUE then
+        
+        --Remove function in ULL.hooksRunIfTrue
+        if ULL.hooksRunIfTrue[hookName] then
+            ULL.hooksRunIfTrue[hookName][name] = nil
+        end
+        
+    elseif mode == ULL.HOOK.IGNORE_RETURN then
+        
+        --Remove function in ULL.hooksIgnoreReturn
+        if ULL.hooksIgnoreReturn[hookName] then
+            ULL.hooksIgnoreReturn[hookName][name] = nil
+        end
+        
+    end
+end
+]]
 
 
 if SERVER then
