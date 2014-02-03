@@ -14,7 +14,8 @@ end
 
 ----Varibles----
 ULL = ULL or {}
-
+ULL.hookFunctionsOriginal = ULL.hookFunctionsOriginal or {}
+ULL.hookFunctions         = ULL.hookFunctions         or {}
 
 ----Enums----
 --[[
@@ -30,7 +31,7 @@ gui.OpenURL(ULL.WEBSITE.STEAM)          --Will open steampowered.com in steam ov
 ULL.INFO = {}
 ULL.INFO.NAME           = "Useful Lua Library"
 ULL.INFO.GITHUB         = "https://github.com/Thomas672/useful_lua_library/"
-ULL.INFO.VERSION        = "1.1"
+ULL.INFO.VERSION        = "1.11"
 ULL.INFO.AUTHOR_NAME    = "Thomas"
 ULL.INFO.AUTHOR_STEAMID = "STEAM_0:0:1937587"
 ULL.INFO.AUTHOR_PROFILE = "http://steamcommunity.com/profiles/76561197999017482/"
@@ -220,10 +221,6 @@ function ULL.SetTableVarible(tableVar, newVar)
     end
 end
 
-
---Hook function--
-ULL.hookFunctionsOriginal = ULL.hookFunctionsOriginal or {}
-ULL.hookFunctions         = ULL.hookFunctions         or {}
 
 --[[Use a function as a hook
 
