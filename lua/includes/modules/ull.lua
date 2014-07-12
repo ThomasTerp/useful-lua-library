@@ -21,8 +21,6 @@ end
 --Varibles--
 
 ULL = ULL or {}
-ULL.hookFunctionsOriginal = ULL.hookFunctionsOriginal or {}
-ULL.hookFunctions         = ULL.hookFunctions         or {}
 
 
 
