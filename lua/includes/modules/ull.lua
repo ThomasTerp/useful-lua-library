@@ -1,23 +1,32 @@
---[[Useful Lua Library (ULL)
-Made by Thomas (http://steamcommunity.com/profiles/76561197999017482/)
-You can use this script in any addons without giving me credits, but don't say you made it.
+---------------------------------------------------------------------------------------------------------
+--Useful Lua Library (ULL)                                                                             --
+--                                                                                                     --
+--Made by Thomas (http://steamcommunity.com/profiles/76561197999017482/)                               --
+--You can use this script in any addons without giving me credits, but don't say you made it.          --
+--                                                                                                     --
+--Use require("ull") in top of the file you want to use this library in, works best if file is shared. --
+---------------------------------------------------------------------------------------------------------
 
-Use require("ull") in top of the file you want to use this library in, works best if file is shared.
-]]
 
-----AddCSLuaFiles----
+
 if SERVER then
+    --AddCSLuaFiles--
+    
     --This file
     AddCSLuaFile()
 end
 
 
-----Varibles----
+
+--Varibles--
+
 ULL = ULL or {}
 ULL.hookFunctionsOriginal = ULL.hookFunctionsOriginal or {}
 ULL.hookFunctions         = ULL.hookFunctions         or {}
 
-----Enums----
+
+
+--Enums--
 --[[
 Examples:
 local vec = ULL.VECTOR.UP*5000          --Same as Vector(0, 0, 5000)
@@ -27,7 +36,9 @@ gui.OpenURL(ULL.WEBSITE.STEAM)          --Will open steampowered.com in steam ov
 
 ]]
 
---Info--
+
+
+--Info
 ULL.INFO = {}
 ULL.INFO.NAME           = "Useful Lua Library"
 ULL.INFO.GITHUB         = "https://github.com/Thomas672/useful_lua_library/"
@@ -37,19 +48,19 @@ ULL.INFO.AUTHOR_STEAMID = "STEAM_0:0:1937587"
 ULL.INFO.AUTHOR_PROFILE = "http://steamcommunity.com/profiles/76561197999017482/"
 ULL.INFO.AUTHOR_GITHUB  = "https://github.com/Thomas672/"
 
---Instances--
+--Instances
 ULL.INSTANCE = {}
 ULL.INSTANCE.SHARED = 1
 ULL.INSTANCE.SERVER = 2
 ULL.INSTANCE.CLIENT = 3
 
---Hook--
+--Hook
 ULL.HOOK = {}
 ULL.HOOK.NORMAL        = 1
 ULL.HOOK.RUN_IF_TRUE   = 2
 ULL.HOOK.IGNORE_RETURN = 3
 
---Colors--
+--Colors
 ULL.COLOR = {}
 ULL.COLOR.BLACK  = Color(0,   0,   0  )
 ULL.COLOR.WHITE  = Color(255, 255, 255)
@@ -60,7 +71,7 @@ ULL.COLOR.YELLOW = Color(255, 0,   255)
 ULL.COLOR.ORANGE = Color(255, 150, 0  )
 ULL.COLOR.PURPLE = Color(255, 0,   255)
 
---Vectors--
+--Vectors
 ULL.VECTOR = {}
 ULL.VECTOR.RIGHT    = Vector(1,  0,  0 )
 ULL.VECTOR.FORWARD  = Vector(0,  1,  0 )
@@ -69,7 +80,7 @@ ULL.VECTOR.LEFT     = Vector(-1, 0,  0 )
 ULL.VECTOR.BACKWARD = Vector(0,  -1, 0 )
 ULL.VECTOR.DOWN     = Vector(0,  0,  -1)
 
---Time--
+--Time
 ULL.TIME = {}
 ULL.TIME.MILLISECOND = 0.001
 ULL.TIME.CENTISECOND = 0.01
@@ -95,7 +106,7 @@ ULL.TIME.MILLENNIUM  = 3.156e+10
 ULL.TIME.TERASECOND  = 4.3233e+11
 ULL.TIME.MEGAANNUM   = 3.155693e+13
 
---Websites--
+--Websites
 ULL.WEBSITE = {}
 ULL.WEBSITE.STEAM           = "http://store.steampowered.com/"
 ULL.WEBSITE.DAYBREAKGAMING  = "http://daybreakgaming.com/"
@@ -107,11 +118,11 @@ ULL.WEBSITE.YOUTUBE         = "http://youtube.com/"
 ULL.WEBSITE.GITHUB          = "http://github.com/"
 
 
-----Functions----
 
---Misc--
+--Functions--
 
---[[Easier way to include files
+--Easier way to include files
+--[[
 This will take care of AddCSLuaFiling and including a file so you wont have to use more than 1 function to include a file
 
 Use these for the instance argument:
@@ -177,8 +188,8 @@ function ULL.TheUltimateQuestionOfLifeTheUniverseAndEverything()
     return 42
 end
 
---[[Gets a varible by name and returns it
-
+--Gets a varible by name and returns it
+--[[
 Examples:
 local var = ULL.GetVaribleByName("hook")
 local var = ULL.GetVaribleByName("hook.Add")
@@ -196,9 +207,9 @@ function ULL.GetTableVarible(name)
     return var
 end
 
---[[Set a varible in a table using a string
-
-normally you would just do
+--Set a varible in a table using a string
+--[[
+Normally you would just do
 hook.Add = function() end
 but in some cases that may not be possible (like my ULL.HookFunction)
 
@@ -222,8 +233,8 @@ function ULL.SetTableVarible(tableVar, newVar)
 end
 
 
---[[Use a function as a hook
-
+--Use a function as a hook
+--[[
 Example:
 ULL.HookFunction(print, "print_prefix", function(...)
     return "print:", ...
@@ -275,202 +286,17 @@ end
 
 
 
---Hook--
---[[ULL.hooksRunIfTrue    = {}
-ULL.hooksIgnoreReturn = {}
-
-ULL.HookFunction("hook.Call", "ULL.HookAdd", function(original, ...)
-    local args = {...}
-    local hookName = args[1]
-    local gm = args[2]
-    table.remove(args, 1)
-    table.remove(args, 1)
-    
-    if ULL.hooksRunIfTrue[name] then
-        for k, v in pairs(ULL.hooksRunIfTrue[name]) do
-            if args[1] then
-                v(unpack(args))
-            end
-        end
-    end
-    
-    return original(...)
-end)
-
-function ULL.HookAdd(hookName, name, mode, func)
-    if mode == ULL.HOOK.NORMAL then
-        
-        --Works exactly like hook.Add
-        hook.Add(hookName, name, func)
-        
-    elseif mode == ULL.HOOK.RUN_IF_TRUE then
-        
-        --Store function in ULL.hooksRunIfTrue
-        ULL.hooksRunIfTrue[hookName] = ULL.hooksRunIfTrue[hookName] or {}
-        ULL.hooksRunIfTrue[hookName][name] = func
-        
-    elseif mode == ULL.HOOK.IGNORE_RETURN then
-        
-        --Store function in ULL.hooksIgnoreReturn
-        ULL.hooksIgnoreReturn[hookName] = ULL.hooksIgnoreReturn[hookName] or {}
-        ULL.hooksIgnoreReturn[hookName][name] = func
-        
-    end
-end
-
-function ULL.HookAdd(hookName, name, mode)
-    if mode == ULL.HOOK.NORMAL then
-        
-        --Works exactly like hook.Remove
-        hook.Remove(hookName, name)
-        
-    elseif mode == ULL.HOOK.RUN_IF_TRUE then
-        
-        --Remove function in ULL.hooksRunIfTrue
-        if ULL.hooksRunIfTrue[hookName] then
-            ULL.hooksRunIfTrue[hookName][name] = nil
-        end
-        
-    elseif mode == ULL.HOOK.IGNORE_RETURN then
-        
-        --Remove function in ULL.hooksIgnoreReturn
-        if ULL.hooksIgnoreReturn[hookName] then
-            ULL.hooksIgnoreReturn[hookName][name] = nil
-        end
-        
-    end
-end
-]]
-
-
 if SERVER then
+    --Network strings--
     
-    ----Network strings----
     util.AddNetworkString("ULL_CLIENT_ChatAddText")
     
     
-    ----Functions----
     
-    --[[Returns a object to use for MySQL
-    
-    template:
-    local mySQL = ULL.MySQL{
-        hostname = "",
-        username = "",
-        password = "",
-        database = "",
-        port     = 0,
-        
-        OnConnected = function(mySQL)
-            
-        end,
-    }
-    
-    WARNING: This function is unfinished
-    ]]
-    function ULL.MySQL(...)
-        require("mysqloo")
-        
-        local mySQL = {}
-        local arg = ...
-        
-        mySQL.quene           = {}
-        mySQL.firstConnection = true
-        mySQL.OnConnected     = arg.OnConnected
-        mySQL.connectionInfo  = {
-            hostname = arg.hostname,
-            username = arg.username,
-            password = arg.password,
-            database = arg.database,
-            port     = arg.port,
-        }
-        
-        --Connect
-        mySQL.connection = mysqloo.connect(
-            mySQL.connectionInfo.hostname,
-            mySQL.connectionInfo.username,
-            mySQL.connectionInfo.password,
-            mySQL.connectionInfo.database,
-            mySQL.connectionInfo.port
-        )
-        
-        function mySQL.connection:onConnected()
-            ServerLog("Connection to database \""..mySQL.connectionInfo.database.."\" succeed!")
-            
-            if mySQL.firstConnection then
-                mySQL.firstConnection = false
-                
-                --Run OnConnected hook
-                if mySQL.OnConnected then
-                    mySQL.OnConnected(mySQL)
-                end
-            end
-            
-            --Run queries in queue
-            for k, v in pairs(mySQL.queue) do
-                mySQL.Query(self, v.sql, v.callback)
-            end
-            
-            --Clear quene
-            mySQL.queue = {}
-        end
-         
-        function mySQL.connection:onConnectionFailed(err)
-            ServerLog("Connection to database \""..mySQL.connectionInfo.database.."\" failed!\n    [ERROR] "..err)
-        end
-        
-        function mySQL.Query(sql, callback)
-            local query = mySQL.connection:query(sql)
-            
-            --If query failed
-            if !query then
-                --Add query to quene
-                table.insert(mySQL.queue, {
-                    sql = sql,
-                    callback = callback
-                })
-                
-                --Connect again
-                mySQL.connection:connect()
-                
-                return
-            end
-            
-            if callback then
-                --onSuccess hook
-                function query:onSuccess(data)
-                    callback(data)
-                end
-            end
-            
-            function query:onError(err)
-                if mySQL.connection:status() == mysqloo.DATABASE_NOT_CONNECTED then
-                    --Add query to quene
-                    table.insert(mySQL.queue, {
-                        sql = sql,
-                        callback = callback
-                    })
-                    
-                    --Connect again
-                    mySQL.connection:connect()
-                    
-                    return
-                end
-                
-                ServerLog("Query on database \""..mySQL.connectionInfo.database.."\" failed!\n    [ERROR] "..err.."\n    [SQL] "..sql)
-            end
-
-            query:start()
-        end
-        
-        mySQL.connection:connect()
-        
-        return mySQL
-    end
+    --Functions--
     
     --chat.AddText() for server
     --[[
-    
     Examples:
     ULL.ChatAddText("Send", Entity(1), Color(255, 0, 0), "Hello world!")                --Send to player 1
     ULL.ChatAddText("Send", {Entity(1), Entity(2)}, Color(255, 0, 0), "Hello world!")   --Send to more players
@@ -485,13 +311,18 @@ if SERVER then
 end
 
 
+
 if CLIENT then
-    ----Networking----
+    --Networking--
+    
+    --Print text from ULL.ChatAddText
     net.Receive("ULL_CLIENT_ChatAddText", function(length)
         chat.AddText(unpack(net.ReadTable()))
     end)
 end
 
 
-----Hook call----
+
+--Hook call--
+
 hook.Call("ULL.Load")
