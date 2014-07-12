@@ -284,6 +284,45 @@ function ULL.HookFunctionRemove(funcName, uniqueName)
     end
 end
 
+--Search for varibles in a table
+--[[
+
+Examples:
+PrintTable(ULL.SearchInTables("ply"))
+PrintTable(ULL.SearchInTables("AddText"), chat)
+
+]]
+function ULL.SearchInTables(text, t, path, done)
+    local foundVaribles = {}
+    
+    if not t then
+        t = _G
+    end
+    
+    done = done or {}
+    path = path or "_G"
+    
+    for key, value in pairs(t) do
+        if(istable(value) && !done[value]) then
+            if tostring(key) != "_G" and not string.find(path, ".package.loaded") then
+                done[value] = true
+                
+                if string.find(string.lower(tostring(key)), string.lower(text)) then
+                    foundVaribles[path.."."..tostring(key)] = tostring(value)
+                end
+                
+                SearchInTables(text, value, path.."."..tostring(key), done)
+            end
+        else
+            if string.find(string.lower(tostring(key)), string.lower(text)) then
+                foundVaribles[path.."."..tostring(key)] = tostring(value)
+            end
+        end
+    end
+    
+    return foundVaribles
+end
+
 
 
 if SERVER then
